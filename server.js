@@ -11,19 +11,13 @@ const urlDb = 'mongodb+srv://Alex:Dominique1@cluster0.erqrs.mongodb.net/test';
 const dbName = 'projet-back-end';
 const collectionName = 'projet-back-end';
 const PORT = process.env.PORT || 8080;
-
 /************* MIDDLEWARES *************/
-
 app.set('view engine', 'pug');
 
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use('/js', express.static(__dirname + '/public/script'));
 app.use('/css', express.static(__dirname + '/public/style'));
-// app.use('/img', express.static(__dirname + 'public/images'));
-
 app.use(favicon(__dirname + '/public/images/favicon.png'));
-
 app.use(session({
   resave: false,
   saveUninitialized: false,
@@ -37,13 +31,7 @@ app.use(session({
     collection: collectionName,
   })
 }));
-
-
-
 /*****************Déclaration Routes et Redirections********************/
-
-
-
 app.get('/', (req, res, next) => {
   if (req.session.login) {
     res.redirect('/Game');
@@ -151,9 +139,7 @@ app.post('/processing', (req, res, next) => {
 const server = app.listen(PORT, () => {
   console.log(`Ecoute sur le Port ${PORT}.`)
 });
-
 /************* SOCKET *************/
-
 const io = require('socket.io')(server);
 
 const Playersonline = [];
@@ -186,41 +172,25 @@ io.on('connect', socket => {
           this.score += 10;
           this.score = 10;
         }
-        // if (this.top >= 500) {
-        //   this.score += 10;
-        //   this.score = 20;
-        // }
-
-
-        // console.log(this.score);
       }
     };
-
     AllPlayers[Player.id] = Player;
-
     io.emit('createPlayer', Player);
-
-    /** MOVE PLAYERS **/
-
+    /*************** MOVE PLAYERS ****************/
     socket.on('keypress', movement => {
       if (movement.down && Playersonline.length >= 2) {
         if (AllPlayers[Player.id].top <= 800) {
           AllPlayers[Player.id].top += 20;
           AllPlayers[Player.id].score += 20;
-
           console.log(AllPlayers[Player.id].score);
         }
         if (AllPlayers[Player.id].top >= 800) {
           AllPlayers[Player.id].top = 800;
           AllPlayers[Player.id].score = 600;
-
-          // AllPlayers[Player.id].top += 0;
-          // AllPlayers[Player.id].score++;//si retiré n'affiche plus ma div win pas trouvé mieux (arrivé dans la piscine ajoute +1 d'ou le +1 en score)
         }
       }
       io.emit('createPlayer', Player);
     });
-    //parti test
     var message = [];
     (function updatePlayers() {
       for (const Player in AllPlayers) {
@@ -228,14 +198,8 @@ io.on('connect', socket => {
         AllPlayers[Player].upDateS();
         message.push(AllPlayers[Player]);
       }
-      //
       io.emit('displayAllPlayers', message);
     }());
-
-    // io.emit('displayScores', score);
-    // console.log(score);
-
-    //déconnexion des joueurs
     socket.on('disconnect', (reason) => {
       delete AllPlayers[Player.id];
 

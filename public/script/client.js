@@ -1,4 +1,4 @@
-const socket = io('http://localhost:8080');
+const socket = io('https://alexandre-leclercq.herokuapp.com');
 var Player;
 var Score;
 var Win = document.getElementById('win');
@@ -22,12 +22,12 @@ socket.on('connect', () => {
     Player.style.left = players.left + 'px';
     //
     Player.style.position = players.position;
-    //Prend en compte le top de la div//
+    //Prend en compte les positions de la div//
     Player.style.top = players.top + 'px';
     Player.style.width = players.width;
     //Affiche l'id dans la div//
     Player.innerText = `${players.innerText.charAt(0).toUpperCase()}${players.innerText.slice(1)} score: ${players.score}`;
-    //Div win avec ID si vous gagnez
+    //Div win avec ID quand on win
     Player.score = players.score;
     console.log(players.score);
   };

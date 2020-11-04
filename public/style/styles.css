@@ -1,7 +1,3 @@
-/* * {
-  box-sizing: border-box;  
-} */
-
 html {
   background-color: black;
   display: flex;
@@ -63,10 +59,3 @@ p {
   width: 900px;
   background-color: rgb(8, 195, 241);
 }
-
-/* #table{
-  position: absolute;
-  background-color: white;
-  left: -100 px;
-  border: 2px solid black; 
-} */
